@@ -1,0 +1,6 @@
+[run]
+source = online_fiducial_boards
+omit = 
+    tests/*
+    autoapp.py
+
