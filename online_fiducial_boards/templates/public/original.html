@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mt-5">Original Aruco board generator</h1>
+    <p class="lead">TODO add marker generator</a>.</p>
+    <div class="row">
+        <div class="col-lg-4"></div>
+            <p class="navbar-container">
+                <select id="fruits-combobox">
+                    {% for fiducialLib in fiducialLibs %}
+                    <option value="{{ fiducialLib }}">{{ fiducialLib }}</option>
+                    {% endfor %}
+                </select>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}
