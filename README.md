@@ -36,6 +36,12 @@ Install all libs from `requirements.txt` :
 pip install -r requirements.txt
 ```
 
+Install current package to environment
+
+```bash
+pip install -e .
+```
+
 
 ## Docker Quickstart
 

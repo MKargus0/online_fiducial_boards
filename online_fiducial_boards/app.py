@@ -5,16 +5,13 @@ import sys
 
 from flask import Flask, render_template
 
-from online_fiducial_boards import commands, public, user
+from online_fiducial_boards import commands, public
 from online_fiducial_boards.extensions import (
     bcrypt,
     cache,
     csrf_protect,
-    db,
     debug_toolbar,
     flask_static_digest,
-    login_manager,
-    migrate,
 )
 
 
@@ -28,7 +25,6 @@ def create_app(config_object="online_fiducial_boards.settings"):
     register_extensions(app)
     register_blueprints(app)
     register_errorhandlers(app)
-    register_shellcontext(app)
     register_commands(app)
     configure_logger(app)
     return app
@@ -38,11 +34,8 @@ def register_extensions(app):
     """Register Flask extensions."""
     bcrypt.init_app(app)
     cache.init_app(app)
-    db.init_app(app)
     csrf_protect.init_app(app)
-    login_manager.init_app(app)
     debug_toolbar.init_app(app)
-    migrate.init_app(app, db)
     flask_static_digest.init_app(app)
     return None
 
@@ -50,7 +43,6 @@ def register_extensions(app):
 def register_blueprints(app):
     """Register Flask blueprints."""
     app.register_blueprint(public.views.blueprint)
-    app.register_blueprint(user.views.blueprint)
     return None
 
 
@@ -66,16 +58,6 @@ def register_errorhandlers(app):
     for errcode in [401, 404, 500]:
         app.errorhandler(errcode)(render_error)
     return None
-
-
-def register_shellcontext(app):
-    """Register shell context objects."""
-
-    def shell_context():
-        """Shell context objects."""
-        return {"db": db, "User": user.models.User}
-
-    app.shell_context_processor(shell_context)
 
 
 def register_commands(app):

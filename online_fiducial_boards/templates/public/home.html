@@ -5,29 +5,41 @@
 <div class="jumbotron">
     <div class="container">
     
-      <h1 class="display-3">Welcome to online_fiducial_boards</h1>
+      <h1 class="display-3">Welcome to fiducial boards generator</h1>
     
-      <p>This is a starter Flask template. It includes Bootstrap 5, jQuery 3, Flask-SQLAlchemy, WTForms, and various testing utilities out of the box.</p>
-      <p><a href="https://github.com/cookiecutter-flask/cookiecutter-flask" class="btn btn-primary btn-large">Learn more &raquo;</a></p>
+      <p>This app helps you to generate various fiducial fields. It includes original boards generation, manual.</p>
+      <!-- <p><a href="https://github.com/cookiecutter-flask/cookiecutter-flask" class="btn btn-primary btn-large">Learn more &raquo;</a></p> -->
     </div>
 </div><!-- /.jumbotron -->
+
+<style>
+  /* Define the .resized-image class */
+  .resized-image {
+    max-width: 100%; /* Set the maximum width of the image to 100% of its container */
+    height: auto;    /* Allow the height to adjust automatically while maintaining the aspect ratio */
+  }
+</style>
+
 
 <div class="container">
   <div class="row">
     <div class="col-lg-4">
-      <h2><i class="fa-solid fa-code"></i> Bootstrap 5</h2>
-      <p>Sleek, intuitive, and powerful mobile-first front-end framework for faster and easier web development.</p>
-      <p><a class="btn btn-outline-secondary" href="http://getbootstrap.com/">Official website &raquo;</a></p>
+      <h2><i class="fa-solid "></i> Original </h2>
+      <img src="{{url_for('static', filename='build/aruco_orig.png')}}" class="resized-image" />
+      <!-- <p>Sleek, intuitive, and powerful mobile-first front-end framework for faster and easier web development.</p> -->
+      <p><a class="btn btn-outline-secondary" href="{{ url_for('public.original') }}">Generate &raquo;</a></p>
     </div>
     <div class="col-lg-4">
-      <h2><i class="fa-solid fa-flask"></i> SQLAlchemy</h2>
-      <p>SQLAlchemy is the Python SQL toolkit and Object Relational Mapper that gives application developers the full power and flexibility of SQL.</p>
-      <p><a href="http://www.sqlalchemy.org/" class="btn btn-outline-secondary">Official website &raquo;</a></p>
+      <h2><i class="fa-solid "></i> Manual</h2>
+      <img src="{{url_for('static', filename='build/manual_board.jpg')}}" class="resized-image" />
+      <!-- <p>SQLAlchemy is the Python SQL toolkit and Object Relational Mapper that gives application developers the full power and flexibility of SQL.</p> -->
+      <p><a class="btn btn-outline-secondary" href="{{ url_for('public.manual') }}">Generate &raquo;</a></p>
    </div>
     <div class="col-lg-4">
-      <h2><i class="fa-solid fa-pen-to-square"></i> WTForms</h2>
-      <p>WTForms is a flexible forms validation and rendering library for python web development.</p>
-      <p><a href="http://wtforms.simplecodes.com/" class="btn btn-outline-secondary">Official website &raquo;</a></p>
+      <h2><i class="fa-solid "></i> Sierpinski carpet </h2>
+      <img src="{{url_for('static', filename='build/sierpinski_carpet.png')}}" class="resized-image" />
+      <!-- <p>WTForms is a flexible forms validation and rendering library for python web development.</p> -->
+      <p><a class="btn btn-outline-secondary" href="{{ url_for('public.carpet') }}">Generate &raquo;</a></p>
     </div>
   </div><!-- /.row -->
 </div>
