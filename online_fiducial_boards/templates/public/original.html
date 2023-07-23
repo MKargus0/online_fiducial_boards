@@ -1,19 +1,160 @@
 {% extends "layout.html" %}
 
+
 {% block content %}
 <div class="container">
     <h1 class="mt-5">Original Aruco board generator</h1>
     <p class="lead">TODO add marker generator</a>.</p>
+
     <div class="row">
-        <div class="col-lg-4"></div>
+        <div class="col">
+            <h4><i class="fa-solid "></i> Select marker library</h4>
             <p class="navbar-container">
-                <select id="fruits-combobox">
+                <select id="dict-combobox" onchange="updateData()">
                     {% for fiducialLib in fiducialLibs %}
                     <option value="{{ fiducialLib }}">{{ fiducialLib }}</option>
                     {% endfor %}
                 </select>
             </p>
         </div>
+
+        <div class="col">
+            <h4><i class="fa-solid "></i>N size</h4>
+            <p>
+                <input type="number" id="n_input" class="cool-input" placeholder="N size" value="2" min="1" max="100" onchange="updateData()">
+            </p>
+        </div>
+
+        <div class="col">
+            <h4><i class="fa-solid "></i>M size</h4>
+            <p>
+                <input type="number" id="m_input" class="cool-input" placeholder="M size" value="2" min="1" max="100" onchange="updateData()">
+            </p>
+        </div>
+
+        <div class="col">
+            <h4><i class="fa-solid "></i>Length</h4>
+            <p>
+                <input type="number" id="length_input" class="cool-input" placeholder="marker length" value="0.5" step="0.1" min="0" max="100" onchange="updateData()">
+            </p>
+        </div>
+
+        <div class="col">
+            <h4><i class="fa-solid "></i>Separation</h4>
+            <p>
+                <input type="number" id="separation_input" class="cool-input" placeholder="marker separation " value="0.5" step="0.1" min="0" max="100" onchange="updateData()">
+            </p>
+        </div>
+
+        <div id="advanced_par_container">
+
+            <div class="col">
+                <h4><i class="fa-solid "></i>Separation</h4>
+                <p>
+                    <input type="number" id="board_resolution_input" class="cool-input" placeholder=" " value="100" step="10" min="10" max="1000" onchange="updateData()">
+                </p>
+            </div>
+
+            <div class="col">
+                <h4><i class="fa-solid "></i>Margin size</h4>
+                <p>
+                    <input type="number" id="board_margin_size_input" class="cool-input" placeholder=" " value="100" step="10" min="10" max="1000" onchange="updateData()">
+                </p>
+            </div>
+
+            <div class="col">
+                <h4><i class="fa-solid "></i>Border bit input</h4>
+                <p>
+                    <input type="number" id="border_bit_input" class="cool-input" placeholder=" " value="1" step="1" min="0" max="10" onchange="updateData()">
+                </p>
+            </div>
+
+        </div>
+
+        <div class="col"></div>
+
+            <h4><i class="fa-solid "></i>Advanced params</h4>
+            <p>
+                <input type="checkbox" id="advanced_par_checkbox">
+            </p>
+            
+        </div>
+
+
     </div>
+
 </div>
+
+<script>
+
+    document.getElementById('advanced_par_checkbox').addEventListener('change', function() {
+        var advanced_par_container = document.getElementById('advanced_par_container');
+        if (this.checked) {
+            advanced_par_container.style.display = 'block';
+        } else {
+            advanced_par_container.style.display = 'none';
+        }
+    });
+
+
+    function updateData() {
+        var selectDict = document.getElementById('dict-combobox').value;
+        var n_value = document.getElementById('n_input').value;
+        var m_value = document.getElementById('m_input').value;
+        var length_value = document.getElementById('length_input').value;
+        var separation_value = document.getElementById('separation_input').value;
+        var board_resolution_value = document.getElementById('board_resolution_input').value;
+        var board_margin_size_value = document.getElementById('board_margin_size_input').value;
+        var border_bit_value = document.getElementById('border_bit_input').value;
+     
+
+        var data = {
+            select_dict: selectDict,
+            n_input : n_value,
+            m_input : m_value,
+            length : length_value,
+            separation: separation_value,
+            board_resolution: board_resolution_value,
+            board_margin_size: board_margin_size_value,
+            border_bit: border_bit_value,
+        };
+
+        console.log(data);
+        
+        try {
+        let response =  fetch("/original/update_data", {
+            method: "POST",
+            cache: "no-cache",
+            mode: "cors",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error!!! status: ${response.status}`);
+        }
+
+        let jsonData =  response.json();
+
+        // Update the src attribute of the img tag with the new image URL
+        document.getElementById('outputImage').src = jsonData.image_url;
+
+    } catch (error) {
+        console.error('Error:', error);
+    }
+        // .then(response => response.json())
+        // .then(data => {
+        //     // Update the src attribute of the img tag with the new image URL
+        //     document.getElementById('outputImage').src = data.image_url;})
+        // .catch(error => console.error('Error:', error));
+
+    }
+    
+    // Call updateData when the page loads
+    window.onload = updateData;
+    advanced_par_container.style.display = 'none';
+</script>
+
 {% endblock %}

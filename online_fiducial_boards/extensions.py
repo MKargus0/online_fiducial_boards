@@ -5,6 +5,7 @@ from flask_caching import Cache
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_static_digest import FlaskStaticDigest
 from flask_wtf.csrf import CSRFProtect
+from fiducial_boards_generator.boards_generator import BoardsGenerator
 
 bcrypt = Bcrypt()
 csrf_protect = CSRFProtect()

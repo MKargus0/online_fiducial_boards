@@ -1,0 +1,1 @@
+"""fiducial boards generator package."""
