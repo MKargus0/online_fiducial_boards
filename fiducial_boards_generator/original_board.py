@@ -10,7 +10,7 @@ class OriginalParamsContainer:
         self.m = int(data.get('m_input'))
         self.length = float(data.get('length'))
         self.separation = float(data.get('separation'))
-        self.pixel_per_meter = int(data.get('board_resolution'))
+        self.pixel_per_meter = float(data.get('board_resolution'))
         self.margin_size = int(data.get('board_margin_size'))
         self.border_bit = int(data.get('border_bit'))
         
@@ -34,6 +34,6 @@ class OriginalBoard:
         board_height = (params.m * params.length + (params.m - 1) * params.separation) * params.pixel_per_meter
         # img = board.generateImage([board_width, board_height], None
         size = (int(board_width), int(board_height))
-        
+
         img = cv2.aruco.drawPlanarBoard(board, size, params.margin_size, params.border_bit)
         return img
