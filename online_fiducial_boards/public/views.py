@@ -10,7 +10,7 @@ from flask import (
     url_for,
     jsonify,
 )
-
+import os
 
 from online_fiducial_boards.utils import flash_errors
 from online_fiducial_boards.extensions import csrf_protect
@@ -19,7 +19,11 @@ from fiducial_boards_generator.fiducial_library import ARUCO_DICT
 from fiducial_boards_generator.boards_generator import BoardsGenerator
 
 blueprint = Blueprint("public", __name__, static_folder="../static")
-generator = BoardsGenerator(static_folder="../static")
+
+SCRIPT_PATH = os.path.dirname(__file__)
+
+generator = BoardsGenerator(os.path.join(SCRIPT_PATH, "../static"),
+                            "../static")
 
 
 @blueprint.route("/", methods=["GET", "POST"])
@@ -60,19 +64,13 @@ def update_data():
     data = request.get_json()
     if not data:
         return jsonify({'error': 'No data provided'}), 400
-
-    # select_value = data.get('select_value')
-    # input1_value = data.get('input1_value')
-    # input2_value = data.get('input2_value')
     
-    # if not all([select_value, input1_value, input2_value]):
-    #     return jsonify({'error': 'Missing values'}), 400
-    
-    # generator.generate_original()
-    # # Generate the picture and get its URL
-    # image_url = "assets/img/aruco_orig.png" #generate_picture(select_value, input1_value, input2_value)
+    try:
+        image_url = generator.generate_original(data)
+    except Exception as e:
+        return jsonify({'error': e}), 400
 
-    # return jsonify({'image_url': image_url})
+    return jsonify({'image_url': image_url}), 200
 
 
 
