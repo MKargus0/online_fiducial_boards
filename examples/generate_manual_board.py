@@ -2,14 +2,14 @@ from fiducial_boards_generator.custom_field_gen import CustomFieldCreator
 
 board = CustomFieldCreator(0.8, 0.8, 700)
 
-size = 0.25
-board.add_marker(0.21, 0.21, size, 0)
-board.add_marker(-0.21, 0.21, size, 1)
-board.add_marker(0.21, -0.21, size, 2)
-board.add_marker(-0.21, -0.21, size, 3)
+size = 0.2
+board.add_marker(0.21, 0.21, size, 0, yaw = 45)
+board.add_marker(-0.21, 0.21, size, 1, yaw = 45)
+board.add_marker(0.21, -0.21, size, 2, yaw = 45)
+board.add_marker(-0.21, -0.21, size, 3, yaw = 45)
 
 size = 0.12
-board.add_marker(0, 0, size, 4)
+board.add_marker(0, 0, size, 4, yaw = 45)
 
 size = 0.09
 board.add_marker(0.22, 0, size, 5)

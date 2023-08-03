@@ -1,5 +1,5 @@
 import cv2
-from .fiducial_library import ARUCO_DICT, DictNotFoundException
+from .fiducial_library import FiducialLibrary, DictSizeOverflow
 
 
 class OriginalParamsContainer:
@@ -13,20 +13,23 @@ class OriginalParamsContainer:
         self.pixel_per_meter = float(data.get('board_resolution'))
         self.margin_size = int(data.get('board_margin_size'))
         self.border_bit = int(data.get('border_bit'))
-        
+       
 
 class OriginalBoard:
     def __init__(self) -> None:
         pass
 
+    def check_input(self, params : OriginalParamsContainer):
+        fiducial_count = params.n * params.m
+        if not FiducialLibrary.check_dictionary(fiducial_count, params.marker_library):
+            raise DictSizeOverflow("Dictionary size too big, choose another one:", params.marker_library)
+
+
     def generate_board(self, params : OriginalParamsContainer):
 
-        try:
-            dict_id = ARUCO_DICT[params.marker_library]
-        except KeyError:
-            raise DictNotFoundException(f"Key '{params.marker_library}' does not exist in the fiducial dictionary.")
-
-        dict = cv2.aruco.getPredefinedDictionary(dict_id)
+        self.check_input(params)
+    
+        dict = FiducialLibrary.get_dictionary(params.marker_library)
 
         board = cv2.aruco.GridBoard([params.n, params.m], params.length, params.separation, dict)
         

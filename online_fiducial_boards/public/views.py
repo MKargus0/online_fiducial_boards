@@ -15,7 +15,7 @@ import os
 from online_fiducial_boards.utils import flash_errors
 from online_fiducial_boards.extensions import csrf_protect
 
-from fiducial_boards_generator.fiducial_library import ARUCO_DICT
+from fiducial_boards_generator.fiducial_library import ARUCO_DICT_IDS
 from fiducial_boards_generator.boards_generator import BoardsGenerator
 
 blueprint = Blueprint("public", __name__, static_folder="../static")
@@ -53,7 +53,7 @@ def original():
     elif request.method == "POST":
        print("post")
 
-    fiducialLibs = ARUCO_DICT.keys()
+    fiducialLibs = ARUCO_DICT_IDS.keys()
     return render_template("public/original.html", fiducialLibs=fiducialLibs)
 
 

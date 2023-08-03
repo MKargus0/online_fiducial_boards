@@ -90,27 +90,52 @@
         </div>
     </div>
 
+
      <!-- Image display section -->
-     <div class="row mt-4">
-        <div class="col text-center">
+    <div class="row mt-4">
+        <div id="image-container" class="col text-center">
             <h4>Generated Image</h4>
+            <div id="curly-brace-top">
+                <div id="left-top" class="brace"></div>
+                <div id="right-top" class="brace"></div>
+            </div>
+            
             <img id="outputImage" src="" alt="Generated Image" class="generated-image">
+            
+            <div id="curly-brace-bottom">
+                <div id="left-bottom" class="brace"></div>
+                <div id="right-bottom" class="brace"></div>
+            </div>
+
         </div>
     </div>
+
 
 
 </div>
 
 <style>
+    #image-container {
+        position: relative;
+        display: inline-block;
+    }
+
+
     .generated-image {
-        max-height: 1000px; /* Adjust the maximum height as needed */
-        min-height: 500px; /* Adjust the minimum height as needed */
+        max-height: 600px; /* Adjust the maximum height as needed */
         width: auto; /* Let the width adjust proportionally based on the image's aspect ratio */
         max-width: 100%; /* Limit the width to the container's width if the image height exceeds the maximum height */
         display: block; /* Remove any potential vertical alignment issues */
         margin: 0 auto; /* Center the image horizontally within its container */
+
+        /* Add a cool frame around the image */
+        border: 10px solid #5c5c5c; /* Adjust the border width and color */
+        border-radius: 15px; /* Adjust the border radius for rounded corners */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Add a shadow effect for a cool look */
     }
+   
 </style>
+
 
 <script>
 
@@ -165,9 +190,20 @@
             // Update the src attribute of the img tag with the new image URL
             const timestamp = new Date().getTime();
             document.getElementById('outputImage').src = jsonData.image_url + '?t=' + timestamp;
+            var image = document.getElementById('outputImage');
+            adjustBraces(image);
+
+
         } catch (error) {
             console.error('Error:', error);
         }
+    }
+
+    function adjustBraces(image) {
+        var width = image.offsetWidth;
+        var topBrace = document.getElementById('curly-brace-top');
+        var bottomBrace = document.getElementById('curly-brace-bottom');
+        topBrace.style.width = bottomBrace.style.width = width + 'px';
     }
     
     // Call updateData when the page loads
